@@ -6,8 +6,8 @@ module.exports = app => {
         title: CHAR(255),
         details: TEXT,
         imgs: TEXT,
-        // created_at: { type: DATE, allowNull: false, },
-        // updated_at: { type: DATE, allowNull: false, },
+        created_at: { type: INTEGER, allowNull: false, },
+        updated_at: { type: INTEGER, allowNull: false, },
     });
 
     return Task;
