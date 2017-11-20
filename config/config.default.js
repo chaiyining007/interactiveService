@@ -1,5 +1,6 @@
 'use strict';
 const database = "interactive";
+const {BIGINT} = require('sequelize');
 module.exports = appInfo => {
   const config = exports = {};
 

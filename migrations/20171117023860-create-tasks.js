@@ -1,19 +1,19 @@
 'use strict';
 
 module.exports = {
-  up: function (db, Sequelize) {
-    const { INTEGER, CHAR, TEXT } = Sequelize;
-    db.createTable('tasks', {
-      id: { type: INTEGER, primaryKey: true, allowNull: false, },
+  up: function (queryInterface, Sequelize) {
+    const { INTEGER, CHAR, TEXT, BIGINT } = Sequelize;
+    queryInterface.createTable('tasks', {
+      id: { type: INTEGER, primaryKey: true, allowNull: false, autoIncrement: true },
       title: { type: CHAR(255), allowNull: false, },
       details: { type: TEXT, allowNull: false, },
       imgs: { type: TEXT, allowNull: false, },
-      created_at: { type: INTEGER, allowNull: false, },
-      updated_at: { type: INTEGER, allowNull: false, },
+      created_at: { type: BIGINT, allowNull: false, },
+      updated_at: { type: BIGINT, allowNull: false, },
     });
   },
 
   down: function (queryInterface, Sequelize) {
-    db.dropTable('tasks');
+    queryInterface.dropTable('tasks');
   }
 };
