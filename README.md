@@ -2,32 +2,32 @@
 
 
 
-## QuickStart
+## 命名规范
+1.controller：复数
 
-<!-- add docs here for user -->
+2.model：单数
 
-see [egg docs][egg] for more detail.
+3.service：单数
 
-### Development
+## migrations
+```bash
+$ npm run migrate:new
+$ npm run migrate:up
+$ npm run migrate:down
+```
+
+## 部署
 
 ```bash
-$ npm i
+$ npm run start
+$ npm run stop
+$ npm run debug
 $ npm run dev
-$ open http://localhost:7001/
+$ npm run test
 ```
 
-### Deploy
+## 工具文档
 
-```bash
-$ npm start
-$ npm stop
-```
+1.[egg](https://eggjs.org/zh-cn/)
 
-### npm scripts
-
-- Use `npm run lint` to check code style.
-- Use `npm test` to run unit test.
-- Use `npm run autod` to auto detect dependencies upgrade, see [autod](https://www.npmjs.com/package/autod) for more detail.
-
-
-[egg]: https://eggjs.org
+2.[sequelizejs](http://docs.sequelizejs.com/manual/tutorial/models-definition.html)
