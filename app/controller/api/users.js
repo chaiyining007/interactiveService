@@ -6,7 +6,8 @@ class UserController extends Controller {
         const _body = { biz_action: 0 };
         if (data.id < 1) {
             _body.biz_action = 1;
-            _body.msg = '账号已存在'
+            
+            _body.msg = data.error || '账号已存在'
         } else {
             _body.data = data;
         }
