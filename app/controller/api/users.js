@@ -16,7 +16,12 @@ class UserController extends Controller {
         const { ctx, service } = this;
         const data = yield service.user.get(ctx.request.body);
         if (data.authenticate_token) {
-            ctx.body = { biz_action: 0, authenticate_token: data.authenticate_token }
+            ctx.body = {
+                biz_action: 0,
+                data: {
+                    authenticate_token: data.authenticate_token
+                }
+            }
         } else {
             ctx.body = { biz_action: 1, msg: data.msg }
         }
