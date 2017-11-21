@@ -8,7 +8,15 @@
 2.model：单数
 
 3.service：单数
+## cli
+```bash
+#安装全局命令
+npm install foundation-project -g
 
+#创建初始化代码
+#包含：controller，model，service
+create 类名 --package_name=egg
+```
 ## migrations
 ```bash
 $ npm run migrate:new
@@ -31,3 +39,5 @@ $ npm run test
 1.[egg](https://eggjs.org/zh-cn/)
 
 2.[sequelizejs](http://docs.sequelizejs.com/manual/tutorial/models-definition.html)
+
+3.[foundation-project](https://www.npmjs.com/package/foundation-project)

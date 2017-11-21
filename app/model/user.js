@@ -34,7 +34,6 @@ module.exports = app => {
             },
             setterMethods: {
                 password(value) {
-   
                     this.setDataValue('password', value)
                 }
             },
@@ -43,10 +42,8 @@ module.exports = app => {
                     if (!this.getDataValue('password')) {
                         throw new Error('密码不能为空！')
                     }
-
                 }
             }
         });
-
     return User;
 };
