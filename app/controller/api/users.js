@@ -12,6 +12,7 @@ class UserController extends Controller {
         }
         ctx.body = _body
     }
+
     * login() {
         const { ctx, service } = this;
         const data = yield service.user.get(ctx.request.body);
@@ -23,7 +24,7 @@ class UserController extends Controller {
                 }
             }
         } else {
-            ctx.body = { biz_action: 1, msg: data.msg }
+            ctx.body = { biz_action: 1, msg: data.error }
         }
     }
 }
