@@ -22,4 +22,11 @@ exports.cors = {
 exports.security = {
     enable: false,
 };
-
+// exports.redis = {
+//     enable: true,
+//     package: 'egg-redis',
+// };
+// exports.sessionRedis = {
+//     enable: true,
+//     package: 'egg-session-redis',
+// };

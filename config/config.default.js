@@ -29,5 +29,17 @@ module.exports = appInfo => {
     password: "",
     timezone: "+8:00"
   };
+  // config.redis = {
+  //   client: {
+  //     host: '127.0.0.1',
+  //     port: '7002',
+  //     password: '',
+  //     db: '0',
+  //   },
+  //   agent:true
+  // };
+  // config.sessionRedis = {
+  //   name: 'session', // specific instance `session` as the session store
+  // };
   return config;
 };

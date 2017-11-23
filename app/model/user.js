@@ -5,6 +5,7 @@ module.exports = app => {
         {
             mobile: { type: CHAR(255), },
             email: { type: CHAR(255), },
+            fid: { type: CHAR(255), },
             avatar: { type: CHAR(255), },
             encrypted_password: { type: CHAR(255), },
             login: {

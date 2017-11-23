@@ -38,19 +38,26 @@ class UserService extends egg.Service {
         }
     }
 
-    * get({ login, password }) {
+    * get({ login, password, authenticate_token }) {
         const { app, ctx } = this;
         const encrypted_password = ctx.helper.encryption_password(login, password);
         let [user] = yield app.model.User.findAll({
-            'attributes': ['authenticate_token'],
+            'attributes': ['authenticate_token', 'mobile', 'email', 'avatar'],
             'where': {
-                'login': login,
-                'encrypted_password': encrypted_password,
+                '$or': [{
+                    'login': login,
+                    'encrypted_password': encrypted_password,
+                }, {
+                    'authenticate_token': authenticate_token
+                }]
             }
         });
         if (user) {
             return {
-                authenticate_token: user.getDataValue('authenticate_token')
+                authenticate_token: user.getDataValue('authenticate_token'),
+                mobile: user.getDataValue('mobile'),
+                email: user.getDataValue('email'),
+                avatar: user.getDataValue('avatar'),
             }
         } else {
             return {

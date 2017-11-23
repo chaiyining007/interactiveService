@@ -1,9 +1,11 @@
-const Controller = require('egg').Controller;
-class TaskController extends Controller {
+const path = require('path');
+const BaseController = require(`${path.resolve('./app/base/BaseController.js')}`);
+class TaskController extends BaseController {
     * create() {
         const { ctx, service } = this;
-        const data = yield service.task.insert(ctx.request.body);
-        ctx.body = { biz_action: 0, data: data };
+        const user = yield this.getUserData();
+        const data = yield service.task.insert(ctx.request.body,user);
+        ctx.body = { biz_action: 0 };
     }
 }
 module.exports = TaskController;
