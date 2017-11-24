@@ -5,10 +5,10 @@ class UserController extends BaseController {
     * create() {
         const { ctx, service } = this;
         const data = yield service.user.insert(ctx.request.body);
-        if (data.id < 1) {
-            this.error(data.error || '账号已存在');
-        } else {
+        if (data.id && data.id > 0) {
             this.success(data)
+        } else {
+            this.error(data.error || '账号已存在');
         }
     }
 

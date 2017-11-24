@@ -5,7 +5,7 @@ module.exports = {
     const { INTEGER, CHAR, TEXT, BIGINT } = Sequelize;
     queryInterface.createTable('users', {
       id: { type: INTEGER, primaryKey: true, allowNull: false, autoIncrement: true },
-      fid: { type: CHAR(255), allowNull: false, },
+      family_id: { type: CHAR(255), allowNull: false, },
       mobile: { type: CHAR(255), allowNull: false, defaultValue: '' },
       email: { type: CHAR(255), allowNull: false, defaultValue: '' },
       avatar: { type: CHAR(255), allowNull: false, defaultValue: '' },
@@ -16,14 +16,13 @@ module.exports = {
       updated_at: { type: BIGINT, allowNull: false },
     });
     queryInterface.addIndex('users', {
-      fields: ['login','authenticate_token'],
+      fields: ['login', 'authenticate_token'],
       unique: true
     });
   },
 
   down: function (queryInterface, Sequelize) {
-    queryInterface.removeIndex('users', 'login');
-    queryInterface.removeIndex('users', 'authenticate_token');
+    queryInterface.removeIndex('users', ['login', 'authenticate_token']);
     queryInterface.dropTable('users');
   }
 };

@@ -1,9 +1,42 @@
 const egg = require('egg');
 class UserService extends egg.Service {
+    * create_family_invitation_code() {
+        const { app, ctx } = this;
+        let invitation_code = ctx.helper.create_family_invitation_code();
+        let familys = yield app.model.Family.findAll({
+            'where': {
+                invitation_code: invitation_code
+            }
+        });
+        if (familys.length) {
+            return yield this.create_family_invitation_code();
+        }
+        return invitation_code;
+    }
     * insert(data) {
         const { app, ctx } = this;
         const reg_data = Object.assign({}, data);
         const random_seed = 99999999999;
+        let familys, family_id;
+        if (reg_data.invitation_code) {
+            familys = yield app.model.Family.findAll({
+                'where': {
+                    invitation_code: reg_data.invitation_code
+                }
+            });
+            if (!familys.length) {
+                return {
+                    error: "邀请码错误！"
+                }
+            }
+            reg_data.family_id = familys[0].getDataValue('id');
+        } else {
+            let family = yield app.model.Family.create({
+                invitation_code: yield this.create_family_invitation_code()
+            });
+            reg_data.family_id = family.get({ 'plain': true }).id
+        }
+
         if (reg_data.is_random) {
             reg_data.login = `random_${parseInt(Math.random() * random_seed) + (+new Date())}`;
             reg_data.password = `random_password_${parseInt(Math.random() * random_seed) + (+new Date())}`;
