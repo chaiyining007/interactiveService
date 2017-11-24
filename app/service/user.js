@@ -85,7 +85,7 @@ class UserService extends egg.Service {
         const { app, ctx } = this;
         const encrypted_password = ctx.helper.encryption_password(login, password);
         let [user] = yield app.model.User.findAll({
-            'attributes': ['authenticate_token', 'mobile', 'email', 'avatar'],
+            'attributes': ['id','authenticate_token', 'mobile', 'email', 'avatar', 'family_id'],
             'where': {
                 '$or': [{
                     'login': login,
@@ -97,10 +97,12 @@ class UserService extends egg.Service {
         });
         if (user) {
             return {
+                id: user.getDataValue('id'),
                 authenticate_token: user.getDataValue('authenticate_token'),
                 mobile: user.getDataValue('mobile'),
                 email: user.getDataValue('email'),
                 avatar: user.getDataValue('avatar'),
+                family_id: user.getDataValue('family_id'),
             }
         } else {
             return {

@@ -10,6 +10,7 @@ module.exports = app => {
             encrypted_password: { type: CHAR(255), },
             login: {
                 type: CHAR(255),
+                allowNull: false,
                 validate: {
                     notEmpty: { msg: "账号不能为空！" }
                 }
