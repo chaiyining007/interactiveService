@@ -1,5 +1,8 @@
 const egg = require('egg');
 class UserService extends egg.Service {
+    /**
+     * 创建家庭邀请码
+     */
     * create_family_invitation_code() {
         const { app, ctx } = this;
         let invitation_code = ctx.helper.create_family_invitation_code();
@@ -13,6 +16,10 @@ class UserService extends egg.Service {
         }
         return invitation_code;
     }
+    /**
+     * 注册
+     * @param { Object } data 注册信息
+     */
     * insert(data) {
         const { app, ctx } = this;
         const reg_data = Object.assign({}, data);
@@ -70,7 +77,10 @@ class UserService extends egg.Service {
             };
         }
     }
-
+    /**
+     * 获取用户信息
+     * @param {Object} param 账号 AND 密码 OR token
+     */
     * get({ login, password, authenticate_token }) {
         const { app, ctx } = this;
         const encrypted_password = ctx.helper.encryption_password(login, password);

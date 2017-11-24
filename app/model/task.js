@@ -3,6 +3,7 @@ module.exports = app => {
 
     const Task = app.model.define('task', {
         title: CHAR(255),
+        family_id: { type: CHAR(255), allowNull: false, },
         details: TEXT,
         imgs: TEXT,
         created_at: {
@@ -18,6 +19,5 @@ module.exports = app => {
             }
         },
     });
-
     return Task;
 };
