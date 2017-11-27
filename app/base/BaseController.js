@@ -1,5 +1,21 @@
 const Controller = require('egg').Controller;
 class BaseController extends Controller {
+    get pageIndex() {
+        return this.ctx.query.page || 1;
+    }
+    get perPage() {
+        return this.ctx.query.per_page || 20;
+    }
+    get offset() {
+        return (this.pageIndex - 1) * this.perPage;
+    }
+    get paginationData() {
+        return {
+            page_index: this.pageIndex,
+            per_page: this.perPage,
+            offset: this.offset,
+        }
+    }
     * getUserData() {
         const { ctx, service } = this;
         const { headers } = ctx;

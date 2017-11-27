@@ -30,5 +30,29 @@ class TaskService extends egg.Service {
             return { error }
         }
     }
+
+    * list({ per_page, offset = 0, family_id }) {
+        const { app, ctx } = this;
+        const _where = {}, include = [];
+        const User = app.model.User;
+        const Task = app.model.Task;
+        if (family_id) {
+            _where.family_id = family_id;
+        } else {
+            Task.belongsTo(User, { foreignKey: "create_user", as: 'create_user_data' });
+            include.push({
+                model: User, as: "create_user_data", attributes: ['id', 'mobile', 'email', 'avatar', 'family_id']
+            });
+        }
+
+        const tasks = yield Task.findAndCount({
+            attributes: ['title', 'details', 'imgs', 'created_at', 'updated_at', 'family_id', ['create_user', 'create_user_id']],
+            where: _where,
+            limit: per_page,
+            offset: offset,
+            include: include
+        });
+        return tasks;
+    }
 }
 module.exports = TaskService;
