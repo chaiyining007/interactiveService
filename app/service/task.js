@@ -52,6 +52,9 @@ class TaskService extends egg.Service {
             offset: offset,
             include: include
         });
+        tasks.rows.forEach((data) => {
+            data.imgs = JSON.parse(data.imgs);
+        })
         return tasks;
     }
 }

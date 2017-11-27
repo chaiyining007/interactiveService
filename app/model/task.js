@@ -1,5 +1,5 @@
 module.exports = app => {
-    const { CHAR, TEXT, BIGINT } = app.Sequelize;
+    const { CHAR, TEXT, BIGINT ,ARRAY} = app.Sequelize;
 
     const Task = app.model.define('task', {
         title: {
