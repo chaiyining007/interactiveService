@@ -32,11 +32,14 @@ class TaskService extends egg.Service {
         }
     }
 
-    * list({ per_page, offset = 0, family_id }) {
+    * list({ per_page, offset = 0, family_id, user_id }) {
         const { app, ctx } = this;
         const _where = {}, include = [];
         const User = app.model.User;
         const Task = app.model.Task;
+        if (user_id) {
+            _where.create_user = user_id;
+        }
         if (family_id) {
             _where.family_id = family_id;
         } else {
@@ -46,7 +49,7 @@ class TaskService extends egg.Service {
         }
 
         const tasks = yield Task.findAndCount({
-            attributes: ['title', 'details', 'imgs', 'created_at', 'updated_at', 'family_id', ['create_user', 'create_user_id']],
+            attributes: ['id', 'title', 'details', 'imgs', 'created_at', 'updated_at', 'family_id', 'status', 'end_status', ['create_user', 'create_user_id']],
             where: _where,
             limit: per_page,
             offset: offset,
@@ -54,7 +57,7 @@ class TaskService extends egg.Service {
         });
         tasks.rows.forEach((data) => {
             data.imgs = JSON.parse(data.imgs);
-        })
+        });
         return tasks;
     }
 }

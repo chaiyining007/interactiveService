@@ -62,7 +62,9 @@ class UserController extends BaseController {
             this.error(data.error || '账号已存在');
         }
     }
-
+    /**
+     * 登录
+     */
     * login() {
         const { ctx, service } = this;
         const data = yield service.user.get(ctx.request.body);
@@ -73,6 +75,20 @@ class UserController extends BaseController {
         } else {
             this.error(data.error);
         }
+    }
+    /**
+     * 任务列表
+     */
+    * tasks(){
+        const { ctx, service } = this;
+        const user = yield this.getUserData();
+        const tasks = yield service.task.list(Object.assign(this.paginationData, {
+            user_id: user.id,
+        }));
+        this.success(Object.assign({
+            page_index: this.pageIndex,
+            per_page: this.perPage
+        }, tasks));
     }
 }
 module.exports = UserController;
