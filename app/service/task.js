@@ -24,6 +24,7 @@ class TaskService extends egg.Service {
             error = e.errors[e.errors.length - 1].message;
         }
         finally {
+            console.log(task.get({ 'plain': true }))
             if (!error) {
                 return { id: task.get({ 'plain': true }).id };
             }
@@ -39,7 +40,6 @@ class TaskService extends egg.Service {
         if (family_id) {
             _where.family_id = family_id;
         } else {
-            Task.belongsTo(User, { foreignKey: "create_user", as: 'create_user_data' });
             include.push({
                 model: User, as: "create_user_data", attributes: ['id', 'mobile', 'email', 'avatar', 'family_id']
             });

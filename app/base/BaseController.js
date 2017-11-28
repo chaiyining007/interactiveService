@@ -1,10 +1,10 @@
 const Controller = require('egg').Controller;
 class BaseController extends Controller {
     get pageIndex() {
-        return this.ctx.query.page || 1;
+        return (this.ctx.query.page - 0) || 1;
     }
     get perPage() {
-        return this.ctx.query.per_page || 20;
+        return (this.ctx.query.per_page - 0) || 20;
     }
     get offset() {
         return (this.pageIndex - 1) * this.perPage;
