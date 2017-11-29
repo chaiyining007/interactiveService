@@ -47,6 +47,7 @@ module.exports = app => {
             }
         });
     Task.belongsTo(User, { foreignKey: "create_user", as: 'create_user_data' });
+    Task.Attrs = ['id', 'title', 'details', 'imgs', 'created_at', 'updated_at', 'family_id', 'status', 'end_status', ['create_user', 'create_user_id']]
     Task.status_cn = {
         not_started: "未开始",
         processing: "进行中",

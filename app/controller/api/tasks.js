@@ -27,5 +27,18 @@ class TaskController extends BaseController {
             this.error(data.error);
         }
     }
+
+    * show() {
+        const { ctx, service } = this;
+        const task = yield service.task.detail({
+            id: ctx.params.id,
+        });
+        if (task) {
+            this.success(task);
+        } else {
+            this.error('任务不存在');
+        }
+
+    }
 }
 module.exports = TaskController;

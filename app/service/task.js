@@ -1,4 +1,5 @@
 const egg = require('egg');
+const include_create_user_attributes = ['id', 'name', 'mobile', 'email', 'avatar', 'family_id']
 class TaskService extends egg.Service {
     /**
      * 创建任务
@@ -44,12 +45,12 @@ class TaskService extends egg.Service {
             _where.family_id = family_id;
         } else {
             include.push({
-                model: User, as: "create_user_data", attributes: ['id', 'mobile', 'email', 'avatar', 'family_id']
+                model: User, as: "create_user_data", attributes: include_create_user_attributes
             });
         }
 
         const tasks = yield Task.findAndCount({
-            attributes: ['id', 'title', 'details', 'imgs', 'created_at', 'updated_at', 'family_id', 'status', 'end_status', ['create_user', 'create_user_id']],
+            attributes: Task.Attrs,
             where: _where,
             limit: per_page,
             offset: offset,
@@ -59,6 +60,24 @@ class TaskService extends egg.Service {
             data.imgs = JSON.parse(data.imgs);
         });
         return tasks;
+    }
+
+    * detail({ id }) {
+        const { app, ctx } = this;
+        const include = [];
+        const User = app.model.User;
+        const Task = app.model.Task;
+
+        include.push({
+            model: User, as: "create_user_data", attributes: include_create_user_attributes
+        });
+
+        const task = yield Task.findById(id, {
+            attributes: Task.Attrs,
+            include: include
+        });
+        task && task.setDataValue('imgs', JSON.parse(task.getDataValue('imgs')));
+        return task;
     }
 }
 module.exports = TaskService;

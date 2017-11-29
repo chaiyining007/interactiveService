@@ -7,6 +7,7 @@ module.exports = app => {
             email: { type: CHAR(255), },
             family_id: { type: CHAR(255), },
             avatar: { type: CHAR(255), },
+            name: { type: CHAR(255), },
             encrypted_password: { type: CHAR(255), },
             login: {
                 type: CHAR(255),
@@ -32,6 +33,9 @@ module.exports = app => {
             getterMethods: {
                 password() {
                     return this.getDataValue('password');
+                },
+                avatar() {
+                    return this.getDataValue('avatar') || 'http://kalemao.yunwanse.com/kalemao_f2e/main/view/phone/user_center/img/us_default_photo2x.png';
                 }
             },
             setterMethods: {
