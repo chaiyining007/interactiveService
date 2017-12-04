@@ -1,10 +1,11 @@
-const Controller = require('egg').Controller;
+const path = require('path');
+const BaseController = require(`${path.resolve('./app/base/BaseController.js')}`);
 /**
  * 类：
  * 说明：
  * 创建人：
  */
-class FamilyController extends Controller {
+class FamilyController extends BaseController {
 
     /**
      * 方法：创建

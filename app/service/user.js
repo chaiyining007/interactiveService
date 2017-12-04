@@ -1,5 +1,6 @@
-const egg = require('egg');
-class UserService extends egg.Service {
+const path = require('path');
+const BaseService = require(`${path.resolve('./app/base/BaseService.js')}`);
+class UserService extends BaseService {
     /**
      * 注册
      * @param { Object } data 注册信息
@@ -28,13 +29,15 @@ class UserService extends egg.Service {
             error = e.errors[e.errors.length - 1].message;
         }
         finally {
-            return {
+            if (error) {
+                return this.error(error);
+            }
+            return this.success({
                 id: id,
                 authenticate_token: reg_data.authenticate_token,
                 login: reg_data.login,
                 password: reg_data.password,
-                error: error
-            };
+            });
         }
     }
 
@@ -46,7 +49,7 @@ class UserService extends egg.Service {
         const { app, ctx } = this;
         const encrypted_password = ctx.helper.encryption_password(login, password);
         let [user] = yield app.model.User.findAll({
-            'attributes': ['id','name','authenticate_token', 'mobile', 'email', 'avatar', 'family_id'],
+            'attributes': ['id', 'name', 'authenticate_token', 'mobile', 'email', 'avatar', 'family_id'],
             'where': {
                 '$or': [{
                     'login': login,
@@ -57,7 +60,7 @@ class UserService extends egg.Service {
             }
         });
         if (user) {
-            return {
+            return this.success({
                 id: user.getDataValue('id'),
                 name: user.getDataValue('name'),
                 authenticate_token: user.getDataValue('authenticate_token'),
@@ -65,11 +68,9 @@ class UserService extends egg.Service {
                 email: user.getDataValue('email'),
                 avatar: user.getDataValue('avatar'),
                 family_id: user.getDataValue('family_id'),
-            }
+            });
         } else {
-            return {
-                error: '账号或密码错误！'
-            }
+            return this.error('账号或密码错误！');
         }
     }
 }

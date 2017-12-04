@@ -1,6 +1,5 @@
 module.exports = app => {
     const { CHAR, TEXT, BIGINT } = app.Sequelize;
-
     const User = app.model.define('user',
         {
             mobile: { type: CHAR(255), },
@@ -36,11 +35,17 @@ module.exports = app => {
                 },
                 avatar() {
                     return this.getDataValue('avatar') || 'http://kalemao.yunwanse.com/kalemao_f2e/main/view/phone/user_center/img/us_default_photo2x.png';
+                },
+                task_count() {
+                    return this.getDataValue('task_count') || 0
                 }
             },
             setterMethods: {
                 password(value) {
                     this.setDataValue('password', value)
+                },
+                task_count(value) {
+                    this.setDataValue('task_count', value)
                 }
             },
             validate: {
@@ -51,5 +56,11 @@ module.exports = app => {
                 }
             }
         });
+    User.associate = function () {
+        const Task = app.model.models.task;
+        const TaskRun = app.model.models.task_run;
+        User.hasMany(Task, { foreignKey: "create_user", as: "tasks" });
+        User.hasMany(TaskRun, { foreignKey: "user_id",as :"run_user"  });
+    }
     return User;
 };

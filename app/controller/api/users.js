@@ -55,11 +55,11 @@ class UserController extends BaseController {
             reg_data.login = reg_data.login || `random_${parseInt(Math.random() * random_seed) + (+new Date())}`;
             reg_data.password = reg_data.password || `random_password_${parseInt(Math.random() * random_seed) + (+new Date())}`;
         }
-        const data = yield service.user.insert(reg_data);
-        if (data.id && data.id > 0) {
+        const { data, success, error } = yield service.user.insert(reg_data);
+        if (success) {
             this.success(data)
         } else {
-            this.error(data.error || '账号已存在');
+            this.error(error || '账号已存在');
         }
     }
     /**
@@ -67,28 +67,32 @@ class UserController extends BaseController {
      */
     * login() {
         const { ctx, service } = this;
-        const data = yield service.user.get(ctx.request.body);
+        const { data, success, error } = yield service.user.get(ctx.request.body);
 
-        if (data.authenticate_token) {
+        if (success) {
             ctx.session[data.authenticate_token] = data;
             this.success({ authenticate_token: data.authenticate_token })
         } else {
-            this.error(data.error);
+            this.error(error);
         }
     }
     /**
      * 任务列表
      */
-    * tasks(){
+    * tasks() {
         const { ctx, service } = this;
         const user = yield this.getUserData();
-        const tasks = yield service.task.list(Object.assign(this.paginationData, {
+        const { success, data, error } = yield service.task.list(Object.assign(this.paginationData, {
             user_id: user.id,
         }));
-        this.success(Object.assign({
-            page_index: this.pageIndex,
-            per_page: this.perPage
-        }, tasks));
+        if (success) {
+            this.success(Object.assign({
+                page_index: this.pageIndex,
+                per_page: this.perPage
+            }, data));
+        } else {
+            this.error(error);
+        }
     }
 }
 module.exports = UserController;
