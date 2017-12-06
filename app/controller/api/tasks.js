@@ -64,5 +64,18 @@ class TaskController extends BaseController {
             this.error(error);
         }
     }
+
+    * carry_out() { 
+        const { ctx, service } = this;
+        const { success, data, error } = yield service.task.carry_out({
+            user_token: this.token,
+            task_id: ctx.params.id,
+        });
+        if (success) {
+            this.success(data);
+        } else {
+            this.error(error);
+        }
+    }
 }
 module.exports = TaskController;

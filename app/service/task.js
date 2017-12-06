@@ -211,5 +211,12 @@ class TaskService extends BaseService {
             return this.error('任务已结束！');
         }
     }
+    
+    /**
+     * 完成任务
+     */
+    * carry_out(){
+
+    }
 }
 module.exports = TaskService;

@@ -17,7 +17,7 @@ class BaseController extends Controller {
         }
     }
     * getUserData() {
-        const { service } = this;
+        const { service, ctx } = this;
         const { success, data, error } = yield service.user.get({ authenticate_token: this.token });
         return data || {};
     }
